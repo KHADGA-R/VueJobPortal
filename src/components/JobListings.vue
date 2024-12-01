@@ -55,11 +55,13 @@ onMounted(async () => {
                 <PulseLoader :loading="isLoading" />
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <JobListing v-for="job in jobs.slice(0, limit || jobs.length)" 
-                :key="job.id" 
-                :job="job"/>
-                </div>
+            <!-- Show job listing when done loading-->
+            <div v-else class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <JobListing 
+                    v-for="job in jobs.slice(0, limit || jobs.length )" 
+                    :key="job.id" 
+                    :job="job"/>
+                    </div>
         </div>
 
     </section>
