@@ -6,6 +6,7 @@ import JobView from "@/views/JobView.vue";
 import AddJobView from "@/views/AddJobView.vue";
 import EditJobView from "@/views/EditJobView.vue";
 import LoginView from "@/views/LoginView.vue"; 
+import Register from "@/components/Register.vue";
 
 
 const router = createRouter ({
@@ -15,24 +16,35 @@ const router = createRouter ({
             path: '/',
             name: 'home',
             component: HomeView,
+            meta: { requiresAuth: true }
         },
 
         {
             path: '/login',
             name: 'login',
             component: LoginView,
+            meta: { requiresAuth: false }
+        },
+
+        {
+            path: '/register',
+            name: 'register',
+            component: Register,
+            meta: { requiresAuth: false }
         },
 
         {
             path: '/jobs',
             name: 'jobs',
             component: JobsView,
+            meta: { requiresAuth: true }
         },
 
         {
             path: '/jobs/:id',
             name: 'job',
             component: JobView,
+            meta: { requiresAuth: true }
             
         },
 
@@ -40,6 +52,7 @@ const router = createRouter ({
             path: '/jobs/add',
             name: 'add-job',
             component: AddJobView,
+            meta: { requiresAuth: true }
 
         },
 
@@ -47,6 +60,7 @@ const router = createRouter ({
             path: '/jobs/edit/:id',
             name: 'edit-job',
             component: EditJobView,
+            meta: { requiresAuth: true }
         },
 
         {
@@ -55,6 +69,22 @@ const router = createRouter ({
             component: NotFoundView
         },
     ],
+});
+
+//Navigation gaurd
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        // Redirect to login page if not authenticated
+        next('/login');
+    } else if (to.path === '/login' && isAuthenticated) {
+        // Redirect to home page if already authenticated
+        next('/');
+    } else {
+        // Continue to the requested route
+        next();
+    }
 });
 
 

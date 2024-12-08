@@ -1,13 +1,54 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const username = ref('');
 const password = ref('');
+const errorMessage = ref('');
+const isLoading = ref(false);
 
-const handleLogin = () => {
+
+//Mock user data - In real world, this would be fetched from a database
+const validCredentials = 
+    { username: 'Khadga', password: 'admin123' };
+
+const handleLogin = async () => {
     // todo add login logic
+    isLoading.value = true;
+    errorMessage.value = '';
     console.log('Logging in with:', username.value, password.value);
-}
+
+    try {
+      //Basic validation
+      if (!username.value || !password.value) {
+        errorMessage.value = 'Please enter both username and password';
+        return;
+      }
+
+      //simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      //Check credentials
+      if (username.value === validCredentials.username &&
+          password.value === validCredentials.password) {
+            //Store auth token/user data in localstorage
+            localStorage.setItem('isAuthenticated','true');
+            localStorage.setItem('username', username.value);
+
+            router.push('/dashboard');
+          } else {
+            errorMessage.value = 'Invalid username or password';
+          } 
+
+      } catch (error){
+        errorMessage.value = 'An error occurred. Please try again.';
+        console.error('Login error:', error);
+      } finally {
+        isLoading.value = false;
+      }
+
+};
 
 </script>
 
@@ -53,7 +94,7 @@ const handleLogin = () => {
 }
 
 .login-container {
-  background: white;
+  background: rgb(54, 196, 109);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -61,7 +102,8 @@ const handleLogin = () => {
   max-width: 400px;
   position: relative;
   top:50%;
-  left: 50%;
+  left:35%;
+  transform: translate(50%, 50%);
   
 }
 
