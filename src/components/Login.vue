@@ -36,7 +36,7 @@ const handleLogin = async () => {
             localStorage.setItem('isAuthenticated','true');
             localStorage.setItem('username', username.value);
 
-            router.push('/dashboard');
+            router.push('/');
           } else {
             errorMessage.value = 'Invalid username or password';
           } 
@@ -77,8 +77,9 @@ const handleLogin = async () => {
           required
         >
       </div>
-
-      <button type="submit" class="login-button">Login</button>
+     
+      <!-- Add loading state -->
+      <button type="submit" class="login-button" :disabled="isLoading"> {{ isLoading ? 'Logging in ...' : 'Login' }}</button>
     </form>
   </div>
 </template>
@@ -100,7 +101,7 @@ const handleLogin = async () => {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  position: relative;
+  margin: 100px auto;
   top:50%;
   left:35%;
   transform: translate(50%, 50%);

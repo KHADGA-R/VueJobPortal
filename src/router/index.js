@@ -5,7 +5,7 @@ import NotFoundView from "@/views/NotFoundView.vue";
 import JobView from "@/views/JobView.vue";
 import AddJobView from "@/views/AddJobView.vue";
 import EditJobView from "@/views/EditJobView.vue";
-import LoginView from "@/views/LoginView.vue"; 
+import Login from "@/components/Login.vue"; 
 import Register from "@/components/Register.vue";
 
 
@@ -22,7 +22,7 @@ const router = createRouter ({
         {
             path: '/login',
             name: 'login',
-            component: LoginView,
+            component: Login,
             meta: { requiresAuth: false }
         },
 
