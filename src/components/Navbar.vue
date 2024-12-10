@@ -1,12 +1,33 @@
 <script setup>
 import logo from '@/assets/images/logo.png'
-import { RouterLink, useRoute } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { RouterLink, useRoute, useRouter} from 'vue-router';
 
+
+const router = useRouter();
+const isAuthenticated = ref(false);
 
 const isActiveLink = (routePath) => {
   const route = useRoute();
   return route.path === routePath;
 }
+
+onMounted (() => {
+  // Check authentication status when component mount
+  checkAuthStatus();
+});
+
+const checkAuthStatus = () => {
+  isAuthenticated.value = localStorage.getItem('isAuthenticated') == 'true';
+};
+
+const handleLogout = () => {
+  //Clear authentication data
+  localStorage.removeItem('isAuthenticated');
+  localStorage.removeItem('username');
+  isAuthenticated.value = false;
+  router.push('/login');
+};
 
 </script>
 
@@ -24,6 +45,8 @@ const isActiveLink = (routePath) => {
               <span class="hidden md:block text-white text-2xl font-bold ml-2"
                 >Vue Jobs</span>
             </RouterLink>
+
+            <!-- Navigation Links -->
             <div class="md:ml-auto">
               <div class="flex space-x-2">
                 <RouterLink
@@ -57,16 +80,6 @@ const isActiveLink = (routePath) => {
                   'rounded-md']"
                   >Add Job</RouterLink>
                   <RouterLink
-                  to="/login"
-                  :class="[isActiveLink('/login')
-                  ? 'bg-green-900'
-                  : 'hover:bg-grey-900 hover:text-white',
-                  'text-white', 
-                  'px-3', 
-                  'py-2',
-                  'rounded-md']"
-                  >Login</RouterLink>
-                  <RouterLink
                   to="/register"
                   :class="[isActiveLink('/register')
                   ? 'bg-green-900'
@@ -76,6 +89,27 @@ const isActiveLink = (routePath) => {
                   'py-2',
                   'rounded-md']"
                   >Sign Up</RouterLink>
+
+                <template v-if="!isAuthenticated">
+                  <RouterLink
+                  to="/login"
+                  :class="[isActiveLink('/login')
+                  ? 'bg-green-900'
+                  : 'hover:bg-grey-900 hover:text-white',
+                  'text-white', 
+                  'px-3', 
+                  'py-2',
+                  'rounded-md']"
+                  >Login</RouterLink>
+                </template>
+                <template v-else>
+                  <a
+                  href="#"
+                  @click.prevent="handleLogout"
+                  class="text-white px-3 py-2 rounded-md hover:bg-grey-900"
+                  >Logout</a>
+                  
+                </template>
               </div>
             </div>
           </div>

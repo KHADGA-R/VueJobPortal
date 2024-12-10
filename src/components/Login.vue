@@ -103,7 +103,7 @@ const handleLogin = async () => {
   max-width: 400px;
   margin: 100px auto;
   top:50%;
-  left:35%;
+  left:50%;
   transform: translate(50%, 50%);
   
 }
@@ -136,7 +136,7 @@ const handleLogin = async () => {
 }
 
 label {
-  color: #555;
+  color: #ffffff;
   font-size: 0.9rem;
   font-weight: 500;
 }
