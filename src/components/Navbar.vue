@@ -79,16 +79,6 @@ const handleLogout = () => {
                   'py-2',
                   'rounded-md']"
                   >Add Job</RouterLink>
-                  <RouterLink
-                  to="/register"
-                  :class="[isActiveLink('/register')
-                  ? 'bg-green-900'
-                  : 'hover:bg-grey-900 hover:text-white',
-                  'text-white', 
-                  'px-3', 
-                  'py-2',
-                  'rounded-md']"
-                  >Sign Up</RouterLink>
 
                 <template v-if="!isAuthenticated">
                   <RouterLink
@@ -101,6 +91,16 @@ const handleLogout = () => {
                   'py-2',
                   'rounded-md']"
                   >Login</RouterLink>
+                  <RouterLink
+                  to="/register"
+                  :class="[isActiveLink('/register')
+                  ? 'bg-green-900'
+                  : 'hover:bg-grey-900 hover:text-white',
+                  'text-white', 
+                  'px-3', 
+                  'py-2',
+                  'rounded-md']"
+                  >Sign Up</RouterLink>
                 </template>
                 <template v-else>
                   <a
